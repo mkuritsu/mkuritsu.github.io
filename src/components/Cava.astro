@@ -1,0 +1,70 @@
+<div class="body-container">
+    <div class="bar-container">
+        {
+            Array.from({ length: 20 }).map((_, i) => {
+                const randomHeight = Math.floor(Math.random() * 51) + 10;
+                return (
+                    <div
+                        class="progress-bar"
+                        style={`height: ${randomHeight}%;`}
+                    />
+                );
+            })
+        }
+    </div>
+</div>
+<script>
+    const barContainer = document.querySelector(".body-container");
+    const progressBars = document.querySelectorAll(".progress-bar");
+
+    function clamp(value, min, max) {
+        return Math.max(Math.min(value, max), min);
+    }
+
+    setInterval(() => {
+        progressBars.forEach((bar) => {
+            const heightStr = bar.style.height;
+            const height = parseFloat(
+                heightStr.substring(0, heightStr.length - 1),
+            );
+            console.log(height);
+            const offset = Math.floor(Math.random() * 7) - 3;
+            const newHeight = clamp(height + offset, 0, 100);
+            bar.style.height = `${newHeight}%`;
+        });
+    }, 100);
+</script>
+<style>
+    .body-container {
+        display: flex;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        justify-content: center;
+        align-items: end;
+        pointer-events: none;
+        z-index: -999;
+    }
+
+    .bar-container {
+        width: 100%;
+        height: 20%;
+        display: flex;
+        align-items: end;
+        justify-content: center;
+        opacity: 20%;
+        overflow: hidden;
+        gap: 1ch;
+        pointer-events: none;
+    }
+
+    .progress-bar {
+        background-color: var(--foreground1);
+        width: 10ch;
+        height: 10ch;
+        transition: height 0.16s ease-in-out;
+        pointer-events: none;
+    }
+</style>

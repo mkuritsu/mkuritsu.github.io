@@ -1,0 +1,28 @@
+---
+import NavBar from "../components/NavBar.astro";
+
+const url = Astro.url;
+let currentPage = "home";
+if (url.pathname !== "/") {
+    currentPage = url.pathname.substring(1);
+}
+---
+
+<html lang="en" data-webtui-theme="catppuccin">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            rel="icon"
+            href="https://avatars.githubusercontent.com/u/92603490"
+        />
+        <title>mkuritsu</title>
+    </head>
+    <body>
+        <NavBar />
+        <slot />
+    </body>
+</html>
+<style is:global>
+    @import "../global.css";
+</style>

@@ -1,0 +1,62 @@
+---
+const url = Astro.url;
+let currentPage = "home";
+if (url.pathname !== "/") {
+    currentPage = url.pathname.substring(1);
+}
+---
+
+<nav box-="square">
+    <a href="/" class="title">
+        <span id="laptop"></span>
+        <span>mkuritsu</span>
+    </a>
+
+    <div class="nav-right">
+        <a href="/" data-active={currentPage === "home"}>Home</a>
+        <a href="/blog" data-active={currentPage === "blog"}>Blog</a>
+        <a href="/projects" data-active={currentPage === "projects"}>Projects</a
+        >
+        <a href="/about" data-active={currentPage === "about"}>About</a>
+    </div>
+</nav>
+<style>
+    nav {
+        height: 7ch;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 10ch;
+    }
+
+    .title {
+        color: var(--foreground0);
+        text-decoration: none;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        gap: 1ch;
+    }
+
+    .nav-right {
+        a {
+            color: var(--foreground2);
+            text-decoration: none;
+
+            &[data-active="true"] {
+                color: var(--foreground0);
+                text-decoration: underline;
+                font-weight: bold;
+            }
+
+            &:focus,
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+
+    #laptop::before {
+        content: "\eea7";
+    }
+</style>
