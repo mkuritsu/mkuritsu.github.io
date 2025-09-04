@@ -1,71 +1,56 @@
 ---
-// TODO: should probably check how to use canvas api to speed this up
 interface Props {
     waveCount: number;
     speed: number;
     barCount: number;
+    gap: number;
 }
 
-const { waveCount = 2, speed = Math.PI / 20, barCount = 30 } = Astro.props;
+const { waveCount = 2, speed = 0.01, barCount = 30, gap = 10 } = Astro.props;
 ---
 
-<div class="body-container" data-wavecount={waveCount} data-wavespeed={speed}>
-    <div class="bar-container">
-        {
-            Array.from({ length: barCount }).map(() => {
-                return <div class="progress-bar" />;
-            })
-        }
-    </div>
-</div>
+<canvas
+    data-wavecount={waveCount}
+    data-speed={speed}
+    data-barcount={barCount}
+    data-gap={gap}></canvas>
 <script>
-    const container = document.querySelector(".body-container");
-    const waveCount = parseFloat(container?.getAttribute("data-wavecount")!!);
-    const waveSpeed = parseFloat(container?.getAttribute("data-wavespeed")!!);
-    const progressBars = document.querySelectorAll(".progress-bar");
-    const precision = (waveCount * 2 * Math.PI) / progressBars.length;
-    let offset = 0;
+    const canvas = document.querySelector("canvas")!!;
+    const ctx = canvas?.getContext("2d")!!;
+    const style = window.getComputedStyle(document.body);
+    const barColor = style.getPropertyValue("--foreground1");
 
-    setInterval(() => {
-        for (let i = 0; i < progressBars.length; i++) {
-            const bar = progressBars[i];
-            const height = 45 * Math.sin(precision * i - offset) + 55;
-            bar.setAttribute("style", `height: ${height}%`);
+    const waveCount = parseFloat(canvas.getAttribute("data-wavecount")!!);
+    const speed = parseFloat(canvas.getAttribute("data-speed")!!);
+    const barCount = parseFloat(canvas.getAttribute("data-barcount")!!);
+    const gap = parseFloat(canvas.getAttribute("data-gap")!!);
+    const precision = (waveCount * 2 * Math.PI) / barCount;
+
+    let offset = 0;
+    function animate() {
+        requestAnimationFrame(animate);
+        ctx.canvas.width = window.innerWidth;
+        ctx.canvas.height = window.innerHeight;
+        ctx.transform(1, 0, 0, -1, 0, canvas.height);
+        ctx.fillStyle = barColor;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const width = (canvas.width - gap * (barCount - 1)) / barCount;
+        for (let i = 0; i < barCount; i++) {
+            const heightPercent = 45 * Math.sin(precision * i - offset) + 55;
+            const height = (heightPercent * canvas.height) / 100;
+            ctx.fillRect((width + gap) * i, 0, width, height);
         }
-        offset += waveSpeed;
-    }, 100);
+        offset += speed;
+    }
+    animate();
 </script>
 <style>
-    .body-container {
-        display: flex;
+    canvas {
         position: absolute;
-        top: 0;
+        bottom: 0;
         left: 0;
         width: 100%;
-        height: 100%;
-        justify-content: center;
-        align-items: end;
-        pointer-events: none;
-        z-index: -999;
-    }
-
-    .bar-container {
-        width: 100%;
         height: 20%;
-        display: flex;
-        align-items: end;
-        justify-content: center;
         opacity: 20%;
-        overflow: hidden;
-        gap: 1ch;
-        pointer-events: none;
-    }
-
-    .progress-bar {
-        background-color: var(--foreground1);
-        width: 10ch;
-        height: 10ch;
-        transition: height 0.1s linear;
-        pointer-events: none;
     }
 </style>
