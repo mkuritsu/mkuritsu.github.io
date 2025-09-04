@@ -10,6 +10,7 @@
 @import "@webtui/css/components/button.css";
 @import "@webtui/css/components/badge.css";
 @import '@webtui/css/components/progress.css';
+@import '@webtui/css/components/separator.css';
 
 @import "@webtui/theme-catppuccin";
 
@@ -35,4 +36,20 @@
 
 #nf-fa-discord::before {
     content: "\f1ff"
+}
+
+#nf-fa-home::before {
+    content: "\f015";
+}
+
+#nf-oct-person::before {
+    content: "\f415";
+}
+
+#nf-fa-newspaper::before {
+    content: "\f1ea";
+}
+
+#nf-fa-diagram_project::before {
+    content: "\efce";
 }

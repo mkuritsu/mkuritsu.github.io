@@ -13,11 +13,22 @@ if (url.pathname !== "/") {
     </a>
 
     <div class="nav-right">
-        <a href="/" data-active={currentPage === "home"}>Home</a>
-        <a href="/blog" data-active={currentPage === "blog"}>Blog</a>
-        <a href="/projects" data-active={currentPage === "projects"}>Projects</a
-        >
-        <a href="/about" data-active={currentPage === "about"}>About</a>
+        <a href="/" data-active={currentPage === "home"}>
+            <span id="nf-fa-home"></span>
+            <span>Home</span>
+        </a>
+        <a href="/blog" data-active={currentPage === "blog"}>
+            <span id="nf-fa-newspaper"></span>
+            <span>Blog</span>
+        </a>
+        <a href="/projects" data-active={currentPage === "projects"}>
+            <span id="nf-fa-diagram_project"></span>
+            <span>Projects</span>
+        </a>
+        <a href="/about" data-active={currentPage === "about"}>
+            <span id="nf-oct-person"></span>
+            <span>About</span>
+        </a>
     </div>
 </nav>
 <style>
@@ -29,13 +40,16 @@ if (url.pathname !== "/") {
         padding: 0 5ch;
     }
 
-    .title {
-        color: var(--foreground0);
+    a {
         text-decoration: none;
-        font-weight: bold;
         display: flex;
         align-items: center;
         gap: 1ch;
+    }
+
+    .title {
+        color: var(--foreground0);
+        font-weight: bold;
     }
 
     .nav-right {
