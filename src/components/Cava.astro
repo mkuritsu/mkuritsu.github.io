@@ -1,37 +1,38 @@
-<div class="body-container">
+---
+// TODO: should probably check how to use canvas api to speed this up
+interface Props {
+    waveCount: number;
+    speed: number;
+    barCount: number;
+}
+
+const { waveCount = 2, speed = Math.PI / 20, barCount = 30 } = Astro.props;
+---
+
+<div class="body-container" data-wavecount={waveCount} data-wavespeed={speed}>
     <div class="bar-container">
         {
-            Array.from({ length: 20 }).map((_, i) => {
-                const randomHeight = Math.floor(Math.random() * 51) + 10;
-                return (
-                    <div
-                        class="progress-bar"
-                        style={`height: ${randomHeight}%;`}
-                    />
-                );
+            Array.from({ length: barCount }).map(() => {
+                return <div class="progress-bar" />;
             })
         }
     </div>
 </div>
 <script>
-    const barContainer = document.querySelector(".body-container");
+    const container = document.querySelector(".body-container");
+    const waveCount = parseFloat(container?.getAttribute("data-wavecount")!!);
+    const waveSpeed = parseFloat(container?.getAttribute("data-wavespeed")!!);
     const progressBars = document.querySelectorAll(".progress-bar");
-
-    function clamp(value, min, max) {
-        return Math.max(Math.min(value, max), min);
-    }
+    const precision = (waveCount * 2 * Math.PI) / progressBars.length;
+    let offset = 0;
 
     setInterval(() => {
-        progressBars.forEach((bar) => {
-            const heightStr = bar.style.height;
-            const height = parseFloat(
-                heightStr.substring(0, heightStr.length - 1),
-            );
-            console.log(height);
-            const offset = Math.floor(Math.random() * 7) - 3;
-            const newHeight = clamp(height + offset, 0, 100);
-            bar.style.height = `${newHeight}%`;
-        });
+        for (let i = 0; i < progressBars.length; i++) {
+            const bar = progressBars[i];
+            const height = 45 * Math.sin(precision * i - offset) + 55;
+            bar.setAttribute("style", `height: ${height}%`);
+        }
+        offset += waveSpeed;
     }, 100);
 </script>
 <style>
@@ -64,7 +65,7 @@
         background-color: var(--foreground1);
         width: 10ch;
         height: 10ch;
-        transition: height 0.16s ease-in-out;
+        transition: height 0.1s linear;
         pointer-events: none;
     }
 </style>

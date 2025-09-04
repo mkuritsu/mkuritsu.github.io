@@ -1,18 +1,124 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Cava from "../components/Cava.astro";
+import DisplayBox from "../components/DisplayBox.astro";
+import NoContent from "../components/NoContent.astro";
+
 import { getCollection } from "astro:content";
 
 const recentPosts = (await getCollection("posts"))
     .map((p) => p.data)
     .sort((a, b) => b.pubDate.getTime() - a.pubDate.getTime())
-    .slice(5);
+    .slice(0, 10);
+
+const highlightedProjects = (await getCollection("projects"))
+    .map((p) => p.data)
+    .filter((p) => p.highlighted);
 ---
 
 <Layout>
-    <div box-="square">
-        <p>Hello world!</p>
-    </div>
-
+    <main>
+        <DisplayBox title="Recent Posts">
+            <div class="display-container">
+                {
+                    recentPosts.length == 0 ? (
+                        <NoContent />
+                    ) : (
+                        recentPosts.map((post) => (
+                            <a href="/blog" id="post-link">
+                                <span>{post.title}</span>
+                                <span id="nf-fa-external_link" />
+                            </a>
+                        ))
+                    )
+                }
+            </div>
+        </DisplayBox>
+        <div box-="square" class="intro-container">
+            <img
+                src="https://avatars.githubusercontent.com/u/92603490"
+                alt="profile picture"
+            />
+            <p>Hello world!</p>
+        </div>
+        <DisplayBox title="Highlighted Projects">
+            <div class="display-container">
+                {
+                    highlightedProjects.length == 0 ? (
+                        <NoContent />
+                    ) : (
+                        highlightedProjects.map((project) => (
+                            <a href="/blog" id="post-link">
+                                <span>{project.name}</span>
+                                <span id="nf-fa-external_link" />
+                            </a>
+                        ))
+                    )
+                }
+            </div>
+        </DisplayBox>
+    </main>
     <Cava />
 </Layout>
+<style>
+    main {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 5ch;
+    }
+
+    .intro-container {
+        display: flex;
+        align-items: center;
+        align-self: flex-start;
+        justify-content: center;
+        flex-direction: column;
+        padding: 2ch 10ch;
+        gap: 2ch;
+
+        img {
+            border-radius: 50%;
+            width: 13ch;
+            height: 13ch;
+        }
+    }
+
+    ul {
+        display: flex;
+        flex-direction: column;
+        gap: 1ch;
+    }
+
+    #post-link {
+        display: inline-block;
+        text-decoration: none;
+        font-weight: bold;
+        color: var(--foreground0);
+        transition: padding 0.2s ease;
+        padding-left: 0;
+        display: flex;
+        align-items: center;
+        gap: 1ch;
+
+        &:focus,
+        &:hover {
+            text-decoration: underline;
+            padding-left: 1ch;
+        }
+    }
+
+    .display-container {
+        display: flex;
+        flex-direction: column;
+        gap: 1ch;
+        width: 100%;
+        height: 100%;
+    }
+
+    #nf-fa-external_link::before {
+        content: "\f08e";
+    }
+</style>
