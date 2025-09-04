@@ -20,3 +20,19 @@
         --font-family: Menlo, Monaco, monospace, "Symbols Nerd Font";
     }
 }
+
+#nf-fa-external_link::before {
+    content: "\f08e";
+}
+
+#nf-fa-twitter::before {
+    content: "\f099";
+}
+
+#nf-md-github::before {
+    content: "\e65b";
+}
+
+#nf-fa-discord::before {
+    content: "\f1ff"
+}

@@ -40,6 +40,23 @@ const highlightedProjects = (await getCollection("projects"))
                 alt="profile picture"
             />
             <p>Hello world!</p>
+            <div class="link-icons-container">
+                <a
+                    href="http://discord.com/users/343915488562380803"
+                    class="link-icon"
+                >
+                    <span id="nf-fa-discord"></span>
+                    <span>Discord</span>
+                </a>
+                <a href="https://github.com/mkuritsu" class="link-icon">
+                    <span id="nf-md-github"></span>
+                    <span>Github</span>
+                </a>
+                <a href="http://twitter.com/mkuritsuu" class="link-icon">
+                    <span id="nf-fa-twitter"></span>
+                    <span>Twitter</span>
+                </a>
+            </div>
         </div>
         <DisplayBox title="Highlighted Projects">
             <div class="display-container">
@@ -76,7 +93,7 @@ const highlightedProjects = (await getCollection("projects"))
         align-self: flex-start;
         justify-content: center;
         flex-direction: column;
-        padding: 2ch 10ch;
+        padding: 2ch 5ch;
         gap: 2ch;
 
         img {
@@ -118,7 +135,20 @@ const highlightedProjects = (await getCollection("projects"))
         height: 100%;
     }
 
-    #nf-fa-external_link::before {
-        content: "\f08e";
+    .link-icons-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 2ch;
+        width: 100%;
+
+        a {
+            text-decoration: none;
+            color: var(--foreground2);
+            display: flex;
+            gap: 1ch;
+            align-items: center;
+            justify-content: center;
+        }
     }
 </style>
