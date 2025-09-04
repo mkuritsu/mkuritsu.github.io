@@ -1,198 +1,161 @@
-<html>
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
-            rel="stylesheet"
-        />
-        <link
-            rel="icon"
-            href="https://avatars.githubusercontent.com/u/92603490"
-        />
-        <title>mkuritsu</title>
-    </head>
-    <body>
-        <div class="container">
-            <div class="profile-container">
-                <img
-                    class="profile-image"
-                    src="https://avatars.githubusercontent.com/u/92603490"
-                    alt="profile picture"
-                />
-                <p class="profile-name">mkuritsu</p>
+---
+import Layout from "../layouts/Layout.astro";
+import Cava from "../components/Cava.astro";
+import DisplayBox from "../components/DisplayBox.astro";
+import NoContent from "../components/NoContent.astro";
+
+import { getCollection } from "astro:content";
+
+const recentPosts = (await getCollection("posts"))
+    .map((p) => p.data)
+    .sort((a, b) => b.pubDate.getTime() - a.pubDate.getTime())
+    .slice(0, 10);
+
+const highlightedProjects = (await getCollection("projects"))
+    .map((p) => p.data)
+    .filter((p) => p.highlighted);
+---
+
+<Layout>
+    <main>
+        <DisplayBox title="Recent Posts">
+            <div class="display-container">
+                {
+                    recentPosts.length == 0 ? (
+                        <NoContent />
+                    ) : (
+                        recentPosts.map((post) => (
+                            <a href="/blog" id="post-link">
+                                <span>{post.title}</span>
+                                <span id="nf-fa-external_link" />
+                            </a>
+                        ))
+                    )
+                }
             </div>
-            <div class="about-container">
-                <div class="about-text-container">
-                    <p>Welcome to my little corner in the internet</p>
-                    <ul class="text-list">
-                        <li>1st year MSC in Computer Science</li>
-                        <li>Passionate about software and computers</li>
-                        <li>
-                            Special interest in distributed systems, low level
-                            stuff, cybersecurity and game engines
-                        </li>
-                        <li>Loves gaming and anime</li>
-                        <li>Use NixOS btw</li>
-                    </ul>
-                </div>
-                <div class="link-icon-container">
-                    <a class="link-icon" href="https://github.com/mkuritsu">
-                        <img src="images/github-logo.svg" alt="github" />
-                    </a>
-                    <a class="link-icon" href="https://twitter.com/mkuritsuu">
-                        <img src="images/x-logo.png" alt="x" />
-                    </a>
-                </div>
+        </DisplayBox>
+        <div box-="square" class="intro-container">
+            <img
+                src="https://avatars.githubusercontent.com/u/92603490"
+                alt="profile"
+            />
+            <p>Hello world!</p>
+            <div class="link-icons-container">
+                <a
+                    href="http://discord.com/users/343915488562380803"
+                    class="link-icon"
+                >
+                    <span id="nf-fa-discord"></span>
+                    <span>Discord</span>
+                </a>
+                <a href="https://github.com/mkuritsu" class="link-icon">
+                    <span id="nf-md-github"></span>
+                    <span>Github</span>
+                </a>
+                <a href="http://twitter.com/mkuritsuu" class="link-icon">
+                    <span id="nf-fa-twitter"></span>
+                    <span>Twitter</span>
+                </a>
             </div>
         </div>
-    </body>
-</html>
+        <DisplayBox title="Highlighted Projects">
+            <div class="display-container">
+                {
+                    highlightedProjects.length == 0 ? (
+                        <NoContent />
+                    ) : (
+                        highlightedProjects.map((project) => (
+                            <a href="/blog" id="post-link">
+                                <span>{project.name}</span>
+                                <span id="nf-fa-external_link" />
+                            </a>
+                        ))
+                    )
+                }
+            </div>
+        </DisplayBox>
+    </main>
+    <Cava waveCount={2} , speed={Math.PI / 20} , barCount={30} />
+</Layout>
 <style>
-    html,
-    body {
-        margin: 0;
-        padding: 0;
+    main {
         width: 100%;
         height: 100%;
-        font-family: "Roboto";
-    }
-
-    body {
         display: flex;
-    }
-
-    .container {
-        background-color: #3d3d3d;
-        width: 800px;
-        height: 500px;
-        margin: auto;
-        display: flex;
-        border-radius: 30px;
-        overflow: hidden;
-        filter: drop-shadow(0 0 0.5rem black);
-    }
-
-    .profile-container {
-        background-color: #242424;
-        width: 35%;
-        display: flex;
-        justify-content: center;
         align-items: center;
-        flex-direction: column;
-        border-top-right-radius: 20px;
-        border-bottom-right-radius: 20px;
-    }
-
-    .profile-image {
-        border-radius: 50%;
-        aspect-ratio: 1/1;
-        width: 60%;
-    }
-
-    .profile-name {
-        color: white;
-        font-weight: bold;
-        font-size: 1.5rem;
-        margin: 1.2rem 0 0 0;
-    }
-
-    .about-container {
-        background-color: #3d3d3d;
-        width: 65%;
-        height: 100%;
-        padding: 1rem;
-        display: flex;
-        flex-direction: column;
         justify-content: space-between;
-        box-sizing: border-box;
+        padding: 5ch;
     }
 
-    .about-text-container {
-        color: white;
-        font-size: 1.1rem;
-        padding: 1rem;
-    }
-
-    .about-text-container > p {
-        margin: 0;
-    }
-
-    .text-list {
-        margin: 0;
-        padding: 1em 0 0 1.7em;
-    }
-
-    .text-list > li {
-        margin-top: 0.5rem;
-    }
-
-    .link-icon-container {
-        border-top-style: solid;
-        border-image: linear-gradient(to right, #00dbde, #fc00ff) 50;
-        border-top-width: 2px;
-        padding-top: 0.7rem;
-        width: 100%;
+    .intro-container {
         display: flex;
-        justify-content: space-evenly;
+        align-items: center;
+        align-self: flex-start;
+        justify-content: center;
+        flex-direction: column;
+        padding: 2ch 5ch;
+        gap: 2ch;
+
+        img {
+            border-radius: 50%;
+            width: 13ch;
+            height: 13ch;
+        }
     }
 
-    .link-icon {
-        padding: 0;
-        margin: 0;
-        width: 30px;
-        height: 30px;
+    ul {
+        display: flex;
+        flex-direction: column;
+        gap: 1ch;
     }
 
-    .link-icon > img {
+    #post-link {
+        display: inline-block;
+        text-decoration: none;
+        font-weight: bold;
+        color: var(--foreground0);
+        transition: padding 0.2s ease;
+        padding-left: 0;
+        display: flex;
+        align-items: center;
+        gap: 1ch;
+
+        &:focus,
+        &:hover {
+            text-decoration: underline;
+            padding-left: 1ch;
+        }
+    }
+
+    .display-container {
+        display: flex;
+        flex-direction: column;
+        gap: 1ch;
         width: 100%;
         height: 100%;
-        filter: grayscale(100%);
-        cursor: pointer;
-        transition:
-            filter 0.3s linear,
-            transform 0.5s ease;
     }
 
-    .link-icon > img:hover {
-        filter: grayscale(0%);
-        transform: scale(1.2);
-    }
+    .link-icons-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 2ch;
+        width: 100%;
 
-    @media (max-width: 799px) {
-        .container {
-            width: 600px;
-            height: 300px;
-        }
+        a {
+            text-decoration: none;
+            color: var(--foreground2);
+            display: flex;
+            gap: 1ch;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.2s ease;
 
-        .about-text-container {
-            font-size: 0.9rem;
-        }
-    }
-
-    @media (max-width: 599px) {
-        .container {
-            flex-direction: column;
-            width: 90%;
-            height: 500px;
-        }
-
-        .profile-container {
-            width: 100%;
-            height: 300px;
-        }
-
-        .profile-image {
-            width: 100px;
-        }
-
-        .about-container {
-            width: 100%;
-            height: 100%;
-            padding-right: 2rem;
-            padding-left: 2rem;
+            &:focus,
+            &:hover {
+                color: var(--foreground1);
+                font-weight: bold;
+            }
         }
     }
 </style>

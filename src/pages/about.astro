@@ -1,0 +1,127 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout>
+    <main>
+        <div class="about-container" box-="round" shear-="top">
+            <span is-="badge" class="title">About Me</span>
+            <div class="side-container">
+                <div class="left">
+                    <img
+                        src="https://avatars.githubusercontent.com/u/92603490"
+                        alt="profile"
+                    />
+                    <p>mkuritsu</p>
+                </div>
+                <div class="separator" is-="separator" direction-="vertical">
+                </div>
+                <div class="right">
+                    <p>
+                        Heyoo, I'm mkuritsu.<br />
+                        Currently a MSc in Computer Science student at IST, FOSS
+                        advocate and Linux enjoyer. <br />
+                        <br />
+                        Professional procrastinator and easy to nerd snipe (changed
+                        the entire layout of my dotfiles while developing this new
+                        website) <br />
+                        <br />
+                        Prefer to torment my soul in low level than to admire pretty
+                        colors.
+                        <br />
+                        <br />
+                        Don't try to guess my sleep schedule, you will only go insane.
+                        <br />
+                    </p>
+                    <p class="quote">
+                        🙶The greatest distraction is the anime Waifu🙷<br />~Sun
+                        Tzu, the art of war
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+</Layout>
+
+<style>
+    main {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 10ch;
+    }
+
+    .about-container {
+        width: 30ch;
+        height: 50ch;
+        overflow: hidden;
+        animation: slide-animation 0.8s ease forwards;
+        display: flex;
+        flex-direction: column;
+
+        span {
+            width: 10ch;
+        }
+    }
+
+    @keyframes slide-animation {
+        from {
+            width: 30ch;
+        }
+        to {
+            width: 100ch;
+        }
+    }
+
+    .separator {
+        width: 1ch;
+        min-width: 1ch;
+    }
+
+    .title {
+        font-weight: bold;
+    }
+
+    .side-container {
+        width: 100%;
+        height: 100%;
+        display: inline-flex;
+
+        .left {
+            display: flex;
+            width: 30ch;
+            min-width: 30ch;
+            height: 100%;
+            gap: 1ch;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            img {
+                width: 15ch;
+                height: 15ch;
+                border-radius: 50%;
+            }
+
+            p {
+                font-weight: bold;
+                color: var(--foreground0);
+            }
+        }
+
+        .right {
+            width: 67ch;
+            min-width: 67ch;
+            height: 100%;
+            padding: 3ch;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+            .quote {
+                align-self: self-end;
+                text-align: right;
+            }
+        }
+    }
+</style>
