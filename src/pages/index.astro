@@ -75,7 +75,7 @@ const highlightedProjects = (await getCollection("projects"))
             </div>
         </DisplayBox>
     </main>
-    <Cava />
+    <Cava waveCount={2} , speed={Math.PI / 20} , barCount={30} />
 </Layout>
 <style>
     main {
@@ -149,6 +149,13 @@ const highlightedProjects = (await getCollection("projects"))
             gap: 1ch;
             align-items: center;
             justify-content: center;
+            transition: color 0.2s ease;
+
+            &:focus,
+            &:hover {
+                color: var(--foreground1);
+                font-weight: bold;
+            }
         }
     }
 </style>
